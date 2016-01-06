@@ -59,17 +59,19 @@
                     </li>
                     <li><a href="contactus.html"><i class="fa fa-envelope-o"></i> Contact</a></li>
                 </ul>
-                <form class="navbar-form navbar-right" role="search">
+                <form class="navbar-form navbar-right form-inline" role="form">
                     <div class="form-group">
-                        <input type="email" class="form-control" name="username" placeholder="Email">
+                      <label class="sr-only" for="email">Email address</label>
+                      <input type="email" class="form-control" name="email" id="email" placeholder="Email">
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" name="password" placeholder="Password">
+                      <label class="sr-only" for="email">Password</label>
+                      <input type="password" class="form-control" name="password" id="password" placeholder="Password">
                     </div>
                     <div class="checkbox">
                       <label><input type="checkbox"> Remember me</label>
                     </div>
-                    <button type="submit" class="btn btn-info">Sign In</button>
+                    <button type="submit" class="btn btn-info btn-sm">Sign In</button>
                 </form>
             </div>
         </div>
@@ -188,33 +190,33 @@
                         <label for="firstname" class="col-sm-2 control-label">Number of Guests</label>
                         <div class="col-sm-10">
                             <label class="radio-inline">
-                              <input type="radio" name="optradio1">1
+                              <input type="radio" name="optradio" value="1">1
                             </label>
                             <label class="radio-inline">
-                              <input type="radio" name="optradio2">2
+                              <input type="radio" name="optradio" value="2">2
                             </label>
                             <label class="radio-inline">
-                              <input type="radio" name="optradio3">3
+                              <input type="radio" name="optradio" value="3">3
                             </label>
                             <label class="radio-inline">
-                              <input type="radio" name="optradio4">4
+                              <input type="radio" name="optradio" value="4">4
                             </label>
                             <label class="radio-inline">
-                              <input type="radio" name="optradio5">5
+                              <input type="radio" name="optradio" value="5">5
                             </label>
                             <label class="radio-inline">
-                              <input type="radio" name="optradio6">6
+                              <input type="radio" name="optradio" value="6">6
                             </label>
                         </div>
                     </div>
                     <div class="form-group has-feedback">
                         <label for="date" class="col-sm-2 control-label">Date and Time</label>
                         <div class="col-sm-3">
-                            <input type="date" name="date" class="form-control" id="date" placeholder="Date">
+                            <input type="text" name="date" class="form-control" id="date" placeholder="Date">
                             <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
                         </div>
                         <div class="col-sm-3 col-sm-offset-1">
-                            <input type="time" name="time" class="form-control" id="time" placeholder="Time">
+                            <input type="text" name="time" class="form-control" id="time" placeholder="Time">
                             <i class="glyphicon glyphicon-time form-control-feedback"></i>
                         </div>
                         <div class="col-sm-3">
