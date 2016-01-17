@@ -87,7 +87,11 @@ body{
 }
 
 .modal-dialog{
+    width: 60%;
+}
 
-width: 60%;
-
+#carouselButtons {
+    right: 0px;
+    position: absolute;
+    bottom: 0px;
 }
