@@ -152,12 +152,29 @@ angular.module('conFusion.controllers', [])
     };
 }])
 
-.controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', 'baseURL', function($scope, $stateParams, menuFactory, baseURL) {
+.controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory',
+            'baseURL', '$ionicListDelegate', '$ionicPopover',
+            function($scope, $stateParams, menuFactory, baseURL, $ionicListDelegate, $ionicPopover) {
 
     $scope.baseURL = baseURL;
     $scope.dish = {};
     $scope.showDish = false;
     $scope.message="Loading ...";
+
+    // .fromTemplateUrl() method
+    $ionicPopover.fromTemplateUrl('templates/dish-detail-popover.html', {
+      scope: $scope
+    }).then(function(popover) {
+      $scope.popover = popover;
+    });
+
+    $scope.openPopover = function($event) {
+      $scope.popover.show($event);
+    };
+
+    $scope.closePopover = function() {
+      $scope.popover.hide();
+    };
 
     $scope.dish = menuFactory.getDishes().get({id:parseInt($stateParams.id,10)})
     .$promise.then(
@@ -193,7 +210,8 @@ angular.module('conFusion.controllers', [])
 
 // implement the IndexController and About Controller here
 
-.controller('IndexController', ['$scope', 'menuFactory', 'corporateFactory', 'baseURL', function($scope, menuFactory, corporateFactory, baseURL) {
+.controller('IndexController', ['$scope', 'menuFactory', 'corporateFactory',
+            'baseURL', function($scope, menuFactory, corporateFactory, baseURL) {
                 $scope.baseURL = baseURL;
                 $scope.leader = corporateFactory.get({id:3});
                 $scope.showDish = false;
@@ -212,7 +230,8 @@ angular.module('conFusion.controllers', [])
 
             }])
 
-.controller('AboutController', ['$scope', 'corporateFactory', 'baseURL', function($scope, corporateFactory, baseURL) {
+.controller('AboutController', ['$scope', 'corporateFactory', 'baseURL',
+            function($scope, corporateFactory, baseURL) {
 
             $scope.baseURL = baseURL;
             $scope.leaders = corporateFactory.query();
