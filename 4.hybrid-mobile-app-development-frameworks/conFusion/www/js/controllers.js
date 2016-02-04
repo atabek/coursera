@@ -69,7 +69,9 @@ angular.module('conFusion.controllers', [])
   };
 })
 
-.controller('MenuController', ['$scope', 'menuFactory', 'favoriteFactory', 'baseURL', '$ionicListDelegate', function($scope, menuFactory, favoriteFactory, baseURL, $ionicListDelegate) {
+.controller('MenuController', ['$scope', 'menuFactory', 'favoriteFactory',
+            'baseURL', '$ionicListDelegate', function($scope, menuFactory,
+            favoriteFactory, baseURL, $ionicListDelegate) {
 
     $scope.baseURL = baseURL
     $scope.tab = 1;
@@ -84,7 +86,8 @@ angular.module('conFusion.controllers', [])
             $scope.showMenu = true;
         },
         function(response) {
-            $scope.message = "Error: "+response.status + " " + response.statusText;
+            $scope.message = "Error: "+response.status +
+                            " " + response.statusText;
         });
 
 
@@ -122,7 +125,8 @@ angular.module('conFusion.controllers', [])
 
 .controller('ContactController', ['$scope', function($scope) {
 
-    $scope.feedback = {mychannel:"", firstName:"", lastName:"", agree:false, email:"" };
+    $scope.feedback = {mychannel:"", firstName:"", lastName:"", agree:false,
+                        email:"" };
 
     var channels = [{value:"tel", label:"Tel."}, {value:"Email",label:"Email"}];
 
@@ -131,7 +135,8 @@ angular.module('conFusion.controllers', [])
 
 }])
 
-.controller('FeedbackController', ['$scope', 'feedbackFactory', function($scope,feedbackFactory) {
+.controller('FeedbackController', ['$scope', 'feedbackFactory',
+            function($scope,feedbackFactory) {
 
     $scope.sendFeedback = function() {
 
@@ -144,7 +149,8 @@ angular.module('conFusion.controllers', [])
         else {
             $scope.invalidChannelSelection = false;
             feedbackFactory.save($scope.feedback);
-            $scope.feedback = {mychannel:"", firstName:"", lastName:"", agree:false, email:"" };
+            $scope.feedback = {mychannel:"", firstName:"", lastName:"",
+            agree:false, email:"" };
             $scope.feedback.mychannel="";
             $scope.feedbackForm.$setPristine();
             console.log($scope.feedback);
@@ -152,14 +158,17 @@ angular.module('conFusion.controllers', [])
     };
 }])
 
-.controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', 'favoriteFactory',
-            'baseURL', '$ionicListDelegate', '$ionicPopover',
-            function($scope, $stateParams, menuFactory, favoriteFactory, baseURL, $ionicListDelegate, $ionicPopover) {
+.controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory',
+            'favoriteFactory', 'baseURL', '$ionicListDelegate', '$ionicPopover',
+            '$ionicModal', '$timeout', function($scope, $stateParams,
+            menuFactory, favoriteFactory, baseURL, $ionicListDelegate,
+            $ionicPopover, $ionicModal, $timeout) {
 
     $scope.baseURL = baseURL;
     $scope.dish = {};
     $scope.showDish = false;
     $scope.message="Loading ...";
+    $scope.mycomment = {rating:5, comment:"", author:"", date:""};
 
     // Popover .fromTemplateUrl() method
     $ionicPopover.fromTemplateUrl('templates/dish-detail-popover.html', {
@@ -183,7 +192,8 @@ angular.module('conFusion.controllers', [])
                         $scope.showDish = true;
                     },
                     function(response) {
-                        $scope.message = "Error: "+response.status + " " + response.statusText;
+                        $scope.message = "Error: "+response.status + " " +
+                                        response.statusText;
                     }
     );
 
@@ -192,9 +202,42 @@ angular.module('conFusion.controllers', [])
         $scope.closePopover();
     };
 
+    $ionicModal.fromTemplateUrl('templates/dish-comment.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        $scope.commentform = modal;
+      });
+    $scope.openCommentModal = function() {
+        $scope.commentform.show();
+    };
+    $scope.closeCommentModal = function() {
+      console.log("Closing comment modal.");
+      $scope.closePopover();
+      $scope.commentform.hide();
+    };
+
+    // Perform the submit action when the user submits the comment form
+    $scope.submitComment = function() {
+      $scope.mycomment.date = new Date().toISOString();
+      console.log($scope.mycomment);
+
+      $scope.dish.comments.push($scope.mycomment);
+      menuFactory.getDishes().update({id:$scope.dish.id},$scope.dish);
+      console.log($scope.dish.comments);
+
+      //$scope.commentform.$setPristine();
+
+      $scope.mycomment = {rating:5, comment:"", author:"", date:""};
+
+      $timeout(function() {
+        $scope.closeCommentModal();
+    }, 100);
+  };
 }])
 
-.controller('DishCommentController', ['$scope', 'menuFactory', function($scope,menuFactory) {
+.controller('DishCommentController', ['$scope', 'menuFactory', '$ionicModal',
+            function($scope,menuFactory, $ionicModal) {
 
     $scope.mycomment = {rating:5, comment:"", author:"", date:""};
 
@@ -206,7 +249,7 @@ angular.module('conFusion.controllers', [])
         $scope.dish.comments.push($scope.mycomment);
         menuFactory.getDishes().update({id:$scope.dish.id},$scope.dish);
 
-        $scope.commentForm.$setPristine();
+        $scope.commentform.$setPristine();
 
         $scope.mycomment = {rating:5, comment:"", author:"", date:""};
     }
@@ -215,7 +258,7 @@ angular.module('conFusion.controllers', [])
 // implement the IndexController and About Controller here
 
 .controller('IndexController', ['$scope', 'menuFactory', 'corporateFactory',
-            'baseURL', function($scope, menuFactory, corporateFactory, baseURL) {
+            'baseURL', function($scope, menuFactory, corporateFactory, baseURL){
                 $scope.baseURL = baseURL;
                 $scope.leader = corporateFactory.get({id:3});
                 $scope.showDish = false;
@@ -227,7 +270,8 @@ angular.module('conFusion.controllers', [])
                         $scope.showDish = true;
                     },
                     function(response) {
-                        $scope.message = "Error: "+response.status + " " + response.statusText;
+                        $scope.message = "Error: "+response.status +
+                                            " " + response.statusText;
                     }
                 );
                 $scope.promotion = menuFactory.getPromotion().get({id:0});
@@ -265,7 +309,8 @@ angular.module('conFusion.controllers', [])
                 }, 1000);
             },
             function (response) {
-                $scope.message = "Error: " + response.status + " " + response.statusText;
+                $scope.message = "Error: " + response.status +
+                                    " " + response.statusText;
                 $timeout(function () {
                     $ionicLoading.hide();
                 }, 1000);
